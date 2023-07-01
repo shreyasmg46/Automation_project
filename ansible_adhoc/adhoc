@@ -1,0 +1,10 @@
+#Here ansible is used to create a service httpd using adhoc commands [Similar for other packages]
+
+#To install httpd/Any Service
+ansible all/host_name -m yum -a "name=httpd state=latest"
+
+#To start the service
+ansible all/host_name -m service -a "name=httpd state=started"
+
+#To stop the service
+ansible all/host_name -m service -a "name=httpd state=stopped"
