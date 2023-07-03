@@ -1,7 +1,0 @@
----
-- name: Start the httpd WebServer
-  service:
-    name: httpd
-    state: started
-    enabled: true
-

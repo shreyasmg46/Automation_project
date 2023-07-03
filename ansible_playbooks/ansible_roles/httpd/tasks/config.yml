@@ -1,9 +1,0 @@
----
- - name: Copy the httpd index file
-   copy: 
-    src:  index.html
-    dest: /var/www/html
-    owner: root
-    group: root
-    mode: 0644
-   notify: Restart the httpd Server
