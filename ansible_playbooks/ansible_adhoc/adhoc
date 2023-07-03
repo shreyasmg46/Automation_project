@@ -12,3 +12,7 @@ ansible all/host_name -m service -a "name=httpd state=stopped"
 #To Copy the index.html [Custom html page]
 #Specify the source and destination path
 ansible all/host_name -m copy -a "src=/etc/ansible/index.html dest=/var/www/html"
+
+
+# To run the commands on the host machine
+ansible webservers/all -m shell -a "ls -ltr"
