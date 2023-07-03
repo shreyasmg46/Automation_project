@@ -1,0 +1,6 @@
+---
+# Installation of httpd webservers using ansible_roles
+- name: Install httpd WebServer
+  yum:
+    name: httpd
+    state: installed

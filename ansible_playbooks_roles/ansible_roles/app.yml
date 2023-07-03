@@ -1,0 +1,6 @@
+---
+# Installation of httpd pacakge through ansible_roles
+ - hosts: webservers
+   become: true
+   roles:
+     - httpd

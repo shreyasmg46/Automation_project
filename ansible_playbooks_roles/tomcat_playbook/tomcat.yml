@@ -1,0 +1,72 @@
+---
+#shreyasmg46
+#Installation of Tomcat and Deployment of war file using playbook
+- name: Install and Configure of Tomcat
+  hosts: webservers
+  gather_facts: false
+  vars:
+    req_tomcat_ver: 9.0.76
+    req_port: 8080
+    tomcat_url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.76/bin/apache-tomcat-9.0.76.tar.gz
+  tasks:
+  # Update the Packages
+  - name: updating repos
+    shell: yum update -y
+  
+  # Install Java
+  - name: Installing Java
+    shell: yum install java -y
+
+  # Download Tomcat tar file
+  - name: Downloading Required tomcat version
+    get_url:
+      url: "{{tomcat_url}}" 
+      dest: /usr/local/
+
+  # Extract Tomcat tar file
+  - name: Extracting Downloaded tomcat file
+    unarchive:
+      src: "/usr/local/apache-tomcat-9.0.76.tar.gz"
+      dest: /usr/local
+      remote_src: yes
+
+  # Copy and Configure tomcat-users.xml file
+  - name: Copy and Configure the files
+    copy:
+      src: tomcat-users.xml
+      dest: /usr/local/apache-tomcat-9.0.76/conf/tomcat-users.xml
+
+  # Change the default port in server.xml (If Required)
+  #- name: Change Port No
+  #  lineinfile:
+  #    path: /usr/local/apache-tomcat-9.0.76/conf/server.xml
+  #    regexp: '<Connector port="8080" protocol="HTTP/1.1"'
+  #    line: '<Connector port="8081" protocol="HTTP/1.1"'
+  #    remote_src: yes
+  
+  # Copy the Context File
+  - name: Copy the context file
+    copy:
+      src: context.xml
+      dest: /usr/local/apache-tomcat-9.0.76/webapps/manager/META-INF/
+
+  # Installation of git
+  - name: Installation of git
+    shell: yum install git -y
+
+  # Download war files from git
+  - name: Download war file
+    git:
+      repo: https://github.com/shreyasmg46/warfile.git
+      dest: /home/ec2-user/webapps
+
+  # Copy the war file to tomcat webapps directory
+  - name: Copy the war file
+    copy:
+      src: /home/ec2-user/webapps
+      dest: /usr/local/apache-tomcat-9.0.76/
+      remote_src: yes
+
+  # Start the tomcat 
+  - name: Start the Tomcat
+    shell: /usr/local/apache-tomcat-{{req_tomcat_ver}}/bin/startup.sh
