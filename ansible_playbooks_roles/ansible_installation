@@ -1,0 +1,22 @@
+# yum update -y
+# sudo amazon-linux-extras install epel
+# add ssh keys on both the server
+# yum install ansible -y
+# ansible all -m ping
+
+# vi /etc/ansible
+[defaults]
+interpreter_python=auto_silent
+
+# ansible all -m copy -a "src=/tmp/index.html dest=/tmp"
+# ansible all -m yum -a "name=httpd state=latest"
+# ansible all -m service -a "name=httpd state=started"
+# ansible all -m service -a "name=httpd state=stopped"
+
+# ansible webservers -m service -a "name=httpd state=stopped"
+
+# Install Apache
+$ ansible all/webservers -i inventory -m yum -a "name=httpd state=present" --sudo
+
+# Start Apache
+$ ansible all/webservers -i inventory -m service -a "name=httpd enabled=yes state=started" --sudo
