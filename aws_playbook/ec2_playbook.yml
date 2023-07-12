@@ -9,7 +9,7 @@
    vars:
      keypair: testnc
      instance_type: t2.micro
-     image: ami-0fd61683ae1a27a64
+     image: ami-04d1dcfb793f6fa37
      wait: yes
      group: webserver
      count: 1
